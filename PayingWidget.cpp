@@ -4,6 +4,8 @@
 PayingWidget::PayingWidget(QWidget *parent)
     : QWidget(parent)
 {
+
+
     //rcode= new QRcodePainter(parent);
     // rcode->loadImage("wangyonglin",size());
 }
