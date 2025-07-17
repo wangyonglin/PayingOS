@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui bluetooth
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -10,13 +10,13 @@ CONFIG += c++17
 INCLUDEPATH += /opt/include
 LIBS += -L/opt/lib -lqrencode
 SOURCES += \
-    QRcodePainter.cpp \
-    main.cpp \
-    PayingWidget.cpp
+    QPaymentObject.cpp \
+    QPaymentWidget.cpp \
+    main.cpp
 
 HEADERS += \
-    PayingWidget.h \
-    QRcodePainter.h
+    QPaymentObject.h \
+    QPaymentWidget.h
 
 TRANSLATIONS += \
     PayingOS_zh_CN.ts
