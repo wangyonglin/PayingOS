@@ -11,21 +11,11 @@ QPaymentObject::~QPaymentObject() {
 
 }
 
-
-void QPaymentObject::clear()
-{
-    data.clear();
-}
-
-
-
-
-
-
 void QPaymentObject::keyPressEvent(QKeyEvent *event)
 {
     if(event->key()==16777221){
         emit finish(formatPayment(data.toDouble()));
+        data.clear();
         update();
     }
     // 只处理数字键、退格键、小数点

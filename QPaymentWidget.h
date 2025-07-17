@@ -1,5 +1,5 @@
-#ifndef QPAYMENTWIDGET_H
-#define QPAYMENTWIDGET_H
+#ifndef QPaymentWidgetBACK_H
+#define QPaymentWidgetBACK_H
 #include <QWidget>
 #include <QKeyEvent>
 #include "QPaymentObject.h"
@@ -12,7 +12,6 @@ public:
     QPaymentWidget(QWidget *parent = nullptr);
     ~QPaymentWidget();
 
-    QImage createCompositeImage(const QImage &sourceImage);
 public slots:
     void setTitleName(const QString &name);
     void keyboardValue(const QString &amount);
@@ -28,4 +27,4 @@ protected:
     virtual void keyPressEvent(QKeyEvent *event) override;
 
 };
-#endif // QPAYMENTWIDGET_H
+#endif // QPaymentWidgetBACK_H

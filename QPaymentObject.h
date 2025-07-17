@@ -26,7 +26,6 @@ class QPaymentObject : public QWidget
 public:
     explicit QPaymentObject(QWidget *parent = nullptr);
     ~QPaymentObject();
-    void clear();
 signals:
     void finish(const QString & amount);
 public slots:
