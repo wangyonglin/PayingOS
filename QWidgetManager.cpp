@@ -20,7 +20,7 @@ QWidgetManager::QWidgetManager(QWidget *parent)
     aliMQTTClient->setClientId(aliMQTTSettings->getClientID());
     aliMQTTClient->setPassword(aliMQTTSettings->getPassword());
     aliMQTTClient->setUsername(aliMQTTSettings->getUsername());
-    aliMQTTClient->connectToHost();
+  //  aliMQTTClient->connectToHost();
 }
 
 QWidgetManager::~QWidgetManager()
@@ -36,11 +36,13 @@ void QWidgetManager::resizeEvent(QResizeEvent *event)
 
 void QWidgetManager::keyPressEvent(QKeyEvent *event)
 {
+
     if(event->key() == Qt::Key_F1){
-        qWidgetPayment->setTitle("qWidgetPayment");
+        qWidgetPayment->setTitle("--- 扫码支付 ---");
         setCurrentWidget(qWidgetPayment);
     }else if(event->key() == Qt::Key_F2){
-         qWidgetReward->setTitle("qWidgetReward");
+        qWidgetReward->setTitle("qWidgetReward");
         setCurrentWidget(qWidgetReward);
     }
+    qWidgetPayment->keyPressEvent(event);
 }

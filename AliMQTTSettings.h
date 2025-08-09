@@ -7,7 +7,7 @@
 #include <QMessageAuthenticationCode>
 #include <QCryptographicHash>
 #include <QString>
-#include "QtConstants.h"
+#include "QUtilConstants.h"
 
 #define TIMESTAMP_VALUE             "1754671526672"
 #define MQTT_CLINETID_KV            "|securemode=2,signmethod=hmacsha256,timestamp=1754671526672|"

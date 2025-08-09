@@ -12,21 +12,21 @@ LIBS += -L/usr/local/qrencode/lib -lqrencode
 SOURCES += \
     AliMQTTClient.cpp \
     AliMQTTSettings.cpp \
-    QPaymentObject.cpp \
+    QObjectPayment.cpp \
+    QUtilConstants.cpp \
     QWidgetManager.cpp \
     QWidgetPayment.cpp \
     QWidgetReward.cpp \
-    QtConstants.cpp \
     main.cpp
 
 HEADERS += \
     AliMQTTClient.h \
     AliMQTTSettings.h \
-    QPaymentObject.h \
+    QObjectPayment.h \
+    QUtilConstants.h \
     QWidgetManager.h \
     QWidgetPayment.h \
-    QWidgetReward.h \
-    QtConstants.h
+    QWidgetReward.h
 
 TRANSLATIONS += \
     PayingOS_zh_CN.ts
@@ -42,3 +42,6 @@ DISTFILES += \
     README.md
 
 FORMS +=
+
+RESOURCES += \
+    icons.qrc

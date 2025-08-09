@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>resources/icon/icon_alipay.png</file>
+        <file>resources/icon/icon_wepay.png</file>
+        <file>resources/icon/wechat_pay.png</file>
+        <file>resources/icon/alipay.png</file>
+    </qresource>
+</RCC>

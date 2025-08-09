@@ -1,5 +1,5 @@
-#ifndef QPAYMENTOBJECT_H
-#define QPAYMENTOBJECT_H
+#ifndef QOBJECTPAYMENT_H
+#define QOBJECTPAYMENT_H
 
 #include <QObject>
 #include <QBluetoothDeviceDiscoveryAgent>
@@ -20,12 +20,12 @@
 
 
 
-class QPaymentObject : public QWidget
+class QObjectPayment : public QWidget
 {
     Q_OBJECT
 public:
-    explicit QPaymentObject(QWidget *parent = nullptr);
-    ~QPaymentObject();
+    explicit QObjectPayment(QWidget *parent = nullptr);
+    ~QObjectPayment();
 signals:
     void finish(const QString & amount);
 public slots:
@@ -39,8 +39,8 @@ private:
     QString data;
     QTextStream *stream;
     QString formatPayment(double value);
-    QImage createCompositeImage(const QImage &sourceImage);
     QImage generateQRImage(const QString &text, const QSize &size);
+    QImage createCompositeImage(const QImage &sourceImage, const QSize &size);
 };
 
-#endif // QPAYMENTOBJECT_H
+#endif // QOBJECTPAYMENT_H

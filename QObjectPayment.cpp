@@ -1,17 +1,17 @@
-#include "QPaymentObject.h"
+#include "QObjectPayment.h"
 #include <QKeyEvent>
 
-QPaymentObject::QPaymentObject(QWidget *parent)
+QObjectPayment::QObjectPayment(QWidget *parent)
     : QWidget{parent}
 {
     stream=new QTextStream(&data, QIODevice::ReadWrite);
 }
 
-QPaymentObject::~QPaymentObject() {
+QObjectPayment::~QObjectPayment() {
 
 }
 
-void QPaymentObject::keyPressEvent(QKeyEvent *event)
+void QObjectPayment::keyPressEvent(QKeyEvent *event)
 {
     if(event->key()==16777221){
         emit finish(formatPayment(data.toDouble()));
@@ -27,17 +27,17 @@ void QPaymentObject::keyPressEvent(QKeyEvent *event)
         *stream << event->text();
     }
 }
-QString QPaymentObject::formatPayment(double value) {
+QString QObjectPayment::formatPayment(double value) {
     return (qAbs(value - qRound(value)) < 0.005)  // 考虑浮点误差
                ? QString::number(qRound(value))
                : QString::number(value, 'f', 2);
 }
 
-QImage QPaymentObject::createPaymentQRCode(const QString& text, const QSize &size){
+QImage QObjectPayment::createPaymentQRCode(const QString& text, const QSize &size){
     QImage dd=generateQRImage(text,size);
-    return createCompositeImage(dd);
+    return createCompositeImage(dd,size);
 }
-QImage QPaymentObject::generateQRImage(const QString& text, const QSize &size) {
+QImage QObjectPayment::generateQRImage(const QString& text, const QSize &size) {
     QRcode* qrcode = QRcode_encodeString(text.toUtf8().constData(), 0, QR_ECLEVEL_Q, QR_MODE_8, 1);
     if (!qrcode) return QImage();
 
@@ -57,9 +57,9 @@ QImage QPaymentObject::generateQRImage(const QString& text, const QSize &size) {
     return size.width() > 0 ? img.scaled(size, Qt::KeepAspectRatio) : img;
 }
 
-QImage QPaymentObject::createCompositeImage(const QImage& sourceImage) {
-    int backgroundWidth= sourceImage.width();
-    int backgroundHeight= sourceImage.height();
+QImage QObjectPayment::createCompositeImage(const QImage& sourceImage, const QSize &size) {
+    int backgroundWidth= size.width();
+    int backgroundHeight= size.height();
 
     // 创建目标图像(800x600白色圆角矩形)
     QImage targetImage(backgroundWidth, backgroundHeight, QImage::Format_ARGB32);
@@ -87,6 +87,12 @@ QImage QPaymentObject::createCompositeImage(const QImage& sourceImage) {
 
     // 绘制居中图像
     painter.drawImage(x, y, scaledImage);
+
+    // //标题
+    // painter.setPen(Qt::red);
+    // painter.setFont(QFont("Arial", 30, QFont::Bold));
+    // QFontMetrics qfontMetrics(painter.font());
+    // painter.drawText(x-qfontMetrics.horizontalAdvance("888")/2,y, "888");
 
     return targetImage;
 }

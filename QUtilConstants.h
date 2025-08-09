@@ -1,15 +1,15 @@
-#ifndef QTCONSTANTS_H
-#define QTCONSTANTS_H
+#ifndef QUTILCONSTANTS_H
+#define QUTILCONSTANTS_H
 
 #include <QObject>
 #include <QSettings>
 #include <QApplication>
 
-class QtConstants : public QObject
+class QUtilConstants : public QObject
 {
     Q_OBJECT
 public:
-    explicit QtConstants(QObject *parent = nullptr);
+    explicit QUtilConstants(QObject *parent = nullptr);
 
     static QString getBiosSerial();
     static QString getCpuId();
@@ -19,4 +19,4 @@ public:
 signals:
 };
 
-#endif // QTCONSTANTS_H
+#endif // QUTILCONSTANTS_H

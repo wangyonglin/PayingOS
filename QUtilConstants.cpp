@@ -1,4 +1,4 @@
-#include "QtConstants.h"
+#include "QUtilConstants.h"
 #include <QCryptographicHash>
 #include <QDebug>
 #include <QFile>
@@ -9,14 +9,14 @@
 
 
 // 获取BIOS序列号 (Linux系统)
-QtConstants::QtConstants(QObject *parent)
+QUtilConstants::QUtilConstants(QObject *parent)
     :QObject{parent}
 {
 
 }
 
 
-QString QtConstants::getBiosSerial() {
+QString QUtilConstants::getBiosSerial() {
     QFile file("/sys/class/dmi/id/product_serial");
     if (file.open(QIODevice::ReadOnly)) {
         return QString::fromLatin1(file.readAll()).trimmed();
@@ -25,7 +25,7 @@ QString QtConstants::getBiosSerial() {
 }
 
 // 获取CPU ID (Linux系统)
-QString QtConstants::getCpuId() {
+QString QUtilConstants::getCpuId() {
     QFile file("/proc/cpuinfo");
     if (file.open(QIODevice::ReadOnly)) {
         while (!file.atEnd()) {
@@ -39,7 +39,7 @@ QString QtConstants::getCpuId() {
 }
 
 // 获取磁盘序列号 (跨平台)
-QString QtConstants::getDiskSerial() {
+QString QUtilConstants::getDiskSerial() {
     foreach (const QStorageInfo &storage, QStorageInfo::mountedVolumes()) {
         if (storage.isValid() && storage.isReady() && !storage.isReadOnly()) {
 // 在Linux上获取实际设备标识
@@ -61,7 +61,7 @@ QString QtConstants::getDiskSerial() {
 }
 
 // 生成增强版设备ID
-QString QtConstants::getDeviceId() {
+QString QUtilConstants::getDeviceId() {
     // 获取硬件信息
     QString biosSerial = getBiosSerial();
     QString cpuId = getCpuId();

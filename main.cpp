@@ -4,7 +4,7 @@
 #include <QTranslator>
 #include "QWidgetManager.h"
 
-#include "QPaymentObject.h"
+#include "QObjectPayment.h"
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
