@@ -1,28 +1,30 @@
-#include "QPaymentWidget.h"
+#include "QWidgetPayment.h"
 #include <QResizeEvent>
 #include <QPainter>
 #include <QKeyEvent>
 
-QPaymentWidget::QPaymentWidget(QWidget *parent)
+
+QWidgetPayment::QWidgetPayment(QWidget *parent)
     : QPaymentObject(parent)
 {
-    connect(this,&QPaymentObject::finish,this,&QPaymentWidget::keyboardValue);
+
+    connect(this,&QPaymentObject::finish,this,&QWidgetPayment::keyboardValue);
     setStyleSheet("background-color: #027AFF;");
-    thisTitleValue="支付页面";
+    setTitle("QWidgetPayment");
+}
+
+QWidgetPayment::~QWidgetPayment() {
 
 }
 
-QPaymentWidget::~QPaymentWidget() {
-
-}
-
-void QPaymentWidget::setTitleName(const QString &name)
+void QWidgetPayment::setTitle(const QString &name)
 {
-    thisTitleValue=name;
+    qstringTitleName=name;
+    update();
 }
 
 
-void QPaymentWidget::paintEvent(QPaintEvent *event)
+void QWidgetPayment::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
     QImage canvas(size(), QImage::Format_ARGB32);
@@ -32,8 +34,10 @@ void QPaymentWidget::paintEvent(QPaintEvent *event)
     painter.setPen(Qt::white);
     painter.setFont(QFont("Arial", 30, QFont::Bold));
     QFontMetrics titleFontMetrics(painter.font());
-    painter.drawText(canvas.width()/2 - titleFontMetrics.horizontalAdvance(thisTitleValue)/2, canvas.height()/12, thisTitleValue);  // ‌:ml-citation{ref="4,5" data="citationList"}
-    //
+    painter.drawText(canvas.width()/2 - titleFontMetrics.horizontalAdvance(qstringTitleName)/2,
+                     canvas.height()/12, qstringTitleName);
+
+
 
     // 绘制居中图片
 
@@ -52,17 +56,17 @@ void QPaymentWidget::paintEvent(QPaintEvent *event)
     }
 }
 
-void QPaymentWidget::resizeEvent(QResizeEvent *event)
+void QWidgetPayment::resizeEvent(QResizeEvent *event)
 {
     resize(event->size());
 }
 
-void QPaymentWidget::keyPressEvent(QKeyEvent *event)
+void QWidgetPayment::keyPressEvent(QKeyEvent *event)
 {
     QPaymentObject::keyPressEvent(event);
 }
 
-void QPaymentWidget::keyboardValue(const QString & amount){
+void QWidgetPayment::keyboardValue(const QString & amount){
     if(!amount.isEmpty()){
         thisAmountQRcode =  createPaymentQRCode(amount,QSize(300,300));
         qDebug() << amount;
@@ -70,5 +74,6 @@ void QPaymentWidget::keyboardValue(const QString & amount){
         update();
     }
 }
+
 
 

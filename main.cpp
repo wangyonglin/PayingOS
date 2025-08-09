@@ -1,13 +1,13 @@
-#include "QPaymentWidget.h"
-
+#include "QWidgetPayment.h"
 #include <QApplication>
 #include <QLocale>
 #include <QTranslator>
+#include "QWidgetManager.h"
+
 #include "QPaymentObject.h"
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-
     QTranslator translator;
     const QStringList uiLanguages = QLocale::system().uiLanguages();
     for (const QString &locale : uiLanguages) {
@@ -17,10 +17,10 @@ int main(int argc, char *argv[])
             break;
         }
     }
-   // QBluetoothCalculator w;
-    QPaymentWidget w;
-    w.resize(600,800);
-    w.show();
+
+    QWidgetManager qWidgetManager;
+    qWidgetManager.resize(600,800);
+    qWidgetManager.show();
 
     return a.exec();
 }

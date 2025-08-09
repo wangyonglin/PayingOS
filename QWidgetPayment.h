@@ -2,23 +2,24 @@
 #define QPaymentWidgetBACK_H
 #include <QWidget>
 #include <QKeyEvent>
+#include <QtMqtt/QMqttClient>
 #include "QPaymentObject.h"
-
-class QPaymentWidget : public QPaymentObject
+class QWidgetPayment : public QPaymentObject
 {
     Q_OBJECT
 
 public:
-    QPaymentWidget(QWidget *parent = nullptr);
-    ~QPaymentWidget();
+    QWidgetPayment(QWidget *parent = nullptr);
+    ~QWidgetPayment();
 
 public slots:
-    void setTitleName(const QString &name);
     void keyboardValue(const QString &amount);
+    void setTitle(const QString &name);
 private:
     QImage thisAmountQRcode;
     QString thisAmountValue;
-    QString thisTitleValue;
+    QString qstringTitleName;
+
 signals:
 
 protected:
