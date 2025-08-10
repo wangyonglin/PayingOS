@@ -6,7 +6,7 @@
 #include "QWidgetPayment.h"
 #include "QWidgetReward.h"
 #include "AliMQTTClient.h"
-#include "AliMQTTSettings.h"
+#include "AllSettings.h"
 
 class QWidgetManager : public QStackedWidget
 {
@@ -19,7 +19,7 @@ private:
     QWidgetPayment *qWidgetPayment;
     QWidgetReward *qWidgetReward;
     AliMQTTClient *aliMQTTClient;
-    AliMQTTSettings * aliMQTTSettings;
+    AllSettings * allSettings;
 signals:
 
     // QWidget interface

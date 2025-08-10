@@ -11,22 +11,22 @@ INCLUDEPATH += /usr/local/qrencode/include
 LIBS += -L/usr/local/qrencode/lib -lqrencode
 SOURCES += \
     AliMQTTClient.cpp \
-    AliMQTTSettings.cpp \
+    AllSettings.cpp \
     QObjectPayment.cpp \
-    QUtilConstants.cpp \
     QWidgetManager.cpp \
     QWidgetPayment.cpp \
     QWidgetReward.cpp \
+    Qt6Identify.cpp \
     main.cpp
 
 HEADERS += \
     AliMQTTClient.h \
-    AliMQTTSettings.h \
+    AllSettings.h \
     QObjectPayment.h \
-    QUtilConstants.h \
     QWidgetManager.h \
     QWidgetPayment.h \
-    QWidgetReward.h
+    QWidgetReward.h \
+    Qt6Identify.h
 
 TRANSLATIONS += \
     PayingOS_zh_CN.ts

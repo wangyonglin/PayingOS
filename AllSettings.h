@@ -1,5 +1,5 @@
-#ifndef ALIMQTTSETTINGS_H
-#define ALIMQTTSETTINGS_H
+#ifndef ALLSETTINGS_H
+#define ALLSETTINGS_H
 
 #include <QObject>
 #include <QSettings>
@@ -7,15 +7,15 @@
 #include <QMessageAuthenticationCode>
 #include <QCryptographicHash>
 #include <QString>
-#include "QUtilConstants.h"
+#include "Qt6Identify.h"
 
 #define TIMESTAMP_VALUE             "1754671526672"
 #define MQTT_CLINETID_KV            "|securemode=2,signmethod=hmacsha256,timestamp=1754671526672|"
-class AliMQTTSettings : public QSettings
+class AllSettings : public QSettings
 {
     Q_OBJECT
 public:
-    explicit AliMQTTSettings(const QString & filename="../conf/loongc.conf",QObject *parent = nullptr);
+    explicit AllSettings(const QString & filename="../conf/loongc.conf",QObject *parent = nullptr);
     QString getDeviceID();
     QString getClientID();
     QString getUsername();
@@ -36,4 +36,4 @@ private:
     QString hmacSha256(const QByteArray &key, const QByteArray &data);
 };
 
-#endif // ALIMQTTSETTINGS_H
+#endif // ALLSETTINGS_H

@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QtMqtt/QMqttClient>
 #include <QTimer>
-#include "AliMQTTSettings.h"
+#include "AllSettings.h"
 class AliMQTTClient : public QMqttClient
 {
     Q_OBJECT

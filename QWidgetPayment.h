@@ -14,15 +14,19 @@ public:
 
 virtual void keyPressEvent(QKeyEvent *event) override;
 
+
 public slots:
     void keyboardValue(const QString &amount);
     void setTitle(const QString &name);
+    void setWelcomeValue(const QString &text);
+    QString getWelcomeValue();
+    QImage getQImageRCode();
 private:
-    QImage qimageAmountQRcode;
-    QString qstringAmountValue;
+    QImage qimageQRcode;
+    QString qstringWelcomeValue="";
     QString qstringTitleName;
     QImage qIconBuilder(const QSize &size);
-    QImage qRCodeBuilder(const QString &amount, int width, int height);
+    QImage setQImageRCode(const QString &identify,int width, int height);
 signals:
 
 protected:

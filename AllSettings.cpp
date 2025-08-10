@@ -1,4 +1,4 @@
-#include "AliMQTTSettings.h"
+#include "AllSettings.h"
 #include <QDebug>
 #include <QMessageAuthenticationCode>
 #include <QCryptographicHash>
@@ -10,25 +10,24 @@
 #include <QRegularExpression>
 
 
-AliMQTTSettings::AliMQTTSettings(const QString &filename,QObject *parent)
+AllSettings::AllSettings(const QString &filename,QObject *parent)
     :QSettings{filename,IniFormat,parent}{
     productKey= value("alimqtt/productKey","").toString();
-    qDebug() << "productKey:" << productKey;
     deviceName= value("alimqtt/deviceName","").toString();
     deviceSecret= value("alimqtt/deviceSecret","").toString();
     hostUrl=value("alimqtt/hostUrl","").toString();
     port=value("alimqtt/port","1883").toString().toInt();
 }
 
-QString AliMQTTSettings::getDeviceName(){
+QString AllSettings::getDeviceName(){
     /* setup deviceName */
-    return deviceName;
+    return Qt6Identify::build();
 }
-QString AliMQTTSettings::getProductKey(){
+QString AllSettings::getProductKey(){
     /* setup productKey */
     return productKey;
 }
-QString AliMQTTSettings::getDeviceSecret(){
+QString AllSettings::getDeviceSecret(){
     /* setup deviceSecret */
     return deviceSecret;
 }
@@ -36,14 +35,14 @@ QString AliMQTTSettings::getDeviceSecret(){
 
 
 
-QString AliMQTTSettings::getDeviceID(){
+QString AllSettings::getDeviceID(){
     /* setup deviceid */
     if(!getProductKey().isEmpty() && !getDeviceName().isEmpty()){
         return QString("%1.%2").arg(getProductKey()).arg(getDeviceName());
     }
     return nullptr;
 }
-QString AliMQTTSettings::getClientID(){
+QString AllSettings::getClientID(){
     /* setup clientid */
     if(!getProductKey().isEmpty() && !getDeviceName().isEmpty() && TIMESTAMP_VALUE){
         return QString("%1|securemode=2,signmethod=hmacsha256,timestamp=%2|").arg(getDeviceID()).arg(TIMESTAMP_VALUE);
@@ -51,7 +50,7 @@ QString AliMQTTSettings::getClientID(){
     return nullptr;
 }
 
-QString AliMQTTSettings::getUsername(){
+QString AllSettings::getUsername(){
 
     if(!getDeviceName().isEmpty() && !getProductKey().isEmpty()){
         return QString("%1&%2").arg(getDeviceName()).arg(getProductKey());
@@ -59,7 +58,7 @@ QString AliMQTTSettings::getUsername(){
     return nullptr;
 }
 
-QString AliMQTTSettings::getPassword(){
+QString AllSettings::getPassword(){
     /* setup password */
     QString mac;
     mac.append(QString("clientId%1.%2").arg(getProductKey()).arg(getDeviceName()));
@@ -69,23 +68,23 @@ QString AliMQTTSettings::getPassword(){
     qDebug() << mac;
     return hmacSha256(getDeviceSecret().toUtf8(),mac.toUtf8());
 }
-QString AliMQTTSettings::getHostUrl(){
+QString AllSettings::getHostUrl(){
     if(!hostUrl.isEmpty()){
         return QString("%1.%2").arg(getProductKey()).arg(hostUrl);
     }
     return nullptr;
 }
 
-QString AliMQTTSettings::getTopic(const QString &topic)
+QString AllSettings::getTopic(const QString &topic)
 {
   return QString("%1/%2%3").arg(getProductKey()).arg(getDeviceName()).arg(topic);
 }
 
-quint16 AliMQTTSettings::getPort(){
+quint16 AllSettings::getPort(){
     return port;
 }
 
-QString AliMQTTSettings::encryptPassword(const QString &password)
+QString AllSettings::encryptPassword(const QString &password)
 {
     QByteArray passwordData = password.toUtf8();
     // 使用SHA256算法进行哈希计算
@@ -94,7 +93,7 @@ QCryptographicHashPrivate:
     // 转换为十六进制字符串表示，这里不再截取，保留完整的哈希结果
     return QString(hash.toHex());
 }
-QString AliMQTTSettings::hmacSha256(const QByteArray &key, const QByteArray &data) {
+QString AllSettings::hmacSha256(const QByteArray &key, const QByteArray &data) {
     QByteArray hash= QMessageAuthenticationCode::hash(data, key, QCryptographicHash::Sha256);
     // 转换为十六进制字符串表示，这里不再截取，保留完整的哈希结果
     return QString(hash.toHex());

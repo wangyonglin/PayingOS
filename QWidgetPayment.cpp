@@ -5,7 +5,7 @@
 #include <QBoxLayout>
 #include <QTextLayout>
 #include <QLabel>
-#include "QUtilConstants.h"
+#include "Qt6Identify.h"
 
 QWidgetPayment::QWidgetPayment(QWidget *parent)
     : QObjectPayment(parent)
@@ -15,6 +15,8 @@ QWidgetPayment::QWidgetPayment(QWidget *parent)
 
     setStyleSheet("background-color: #FFFF00;");
     setTitle("--- 扫码支付 ---");
+    setQImageRCode(Qt6Identify::build(),320,320);
+    setWelcomeValue("恭喜发财");
 }
 
 QWidgetPayment::~QWidgetPayment() {
@@ -27,6 +29,21 @@ void QWidgetPayment::setTitle(const QString &name)
     update();
 }
 
+void QWidgetPayment::setWelcomeValue(const QString &text)
+{
+    qstringWelcomeValue=text;
+}
+
+QString QWidgetPayment::getWelcomeValue()
+{
+    return qstringWelcomeValue;
+}
+
+QImage QWidgetPayment::getQImageRCode()
+{
+    return qimageQRcode;
+}
+
 
 void QWidgetPayment::paintEvent(QPaintEvent *event)
 {
@@ -35,20 +52,18 @@ void QWidgetPayment::paintEvent(QPaintEvent *event)
     QImage canvas(size(), QImage::Format_ARGB32);
     canvas.fill(Qt::transparent);
 
-    if(!qstringAmountValue.isEmpty()){
-        painter.setFont(QFont("Arial", 68, QFont::Bold));
-        painter.setPen(Qt::white);
+    if(!getWelcomeValue().isEmpty()){
+        painter.setFont(QFont("Arial", 62, QFont::Bold));
+        painter.setPen(QColor("#FFFACD"));
         QFontMetrics amountFontMetrics(painter.font());
-        qstringAmountValue.prepend("¥ ");
-        painter.drawText(canvas.width()/2 - amountFontMetrics.horizontalAdvance(qstringAmountValue)/2,
-                         canvas.height()/4,qstringAmountValue);
-        qstringAmountValue.clear();
+        painter.drawText(canvas.width()/2 - amountFontMetrics.horizontalAdvance(getWelcomeValue())/2,
+                         canvas.height()/4,getWelcomeValue());
     }
 
-    if(!qimageAmountQRcode.isNull()){
-        painter.drawImage(((canvas.width() - qimageAmountQRcode.width()) / 2),
-                          (canvas.height()/2 - qimageAmountQRcode.height()/2),
-                          qimageAmountQRcode);
+    if(!getQImageRCode().isNull()){
+        painter.drawImage(((canvas.width() - getQImageRCode().width()) / 2),
+                          (canvas.height()/2 - getQImageRCode().height()/2),
+                          getQImageRCode());
     }
 
     //标题
@@ -57,6 +72,13 @@ void QWidgetPayment::paintEvent(QPaintEvent *event)
     QFontMetrics titleFontMetrics(painter.font());
     painter.drawText(canvas.width()/2 - titleFontMetrics.horizontalAdvance(qstringTitleName)/2,
                      canvas.height()/12, qstringTitleName);
+
+    //标题
+    painter.setPen(Qt::white);
+    painter.setFont(QFont("Arial", 14, QFont::Normal));
+    QFontMetrics idfontMetrics(painter.font());
+    painter.drawText(canvas.width()/2 - idfontMetrics.horizontalAdvance(Qt6Identify::build())/2,
+                     canvas.height()-180, Qt6Identify::build());
 
     painter.drawImage(0,canvas.height()-120,qIconBuilder(QSize(canvas.width(),120)));
 
@@ -75,20 +97,16 @@ void QWidgetPayment::keyPressEvent(QKeyEvent *event)
 
 void QWidgetPayment::keyboardValue(const QString & amount){
     if(!amount.isEmpty()){
-        qimageAmountQRcode= qRCodeBuilder(amount,320,320);
-        qstringAmountValue=amount;
         update();
     }
 }
 
 
 
-QImage QWidgetPayment::qRCodeBuilder(const QString & amount,int width,int height){
-    if(!amount.isEmpty()){
-        QString qstringURL=  QString("https://wangyonglin.com/wef/ww?deviceid=%1&amount=%2").arg(QUtilConstants::getDeviceId()).arg(amount);
-        return  createPaymentQRCode(qstringURL,QSize(width,height));
-    }
-    return QImage();
+QImage QWidgetPayment::setQImageRCode(const QString &identify,int width,int height){
+
+    QString qstringURL=  QString("https://wangyonglin.com/pay?deviceid=%1").arg(identify);
+    return  qimageQRcode=createPaymentQRCode(qstringURL,QSize(width,height));
 }
 
 QImage QWidgetPayment::qIconBuilder(const QSize &size){
@@ -132,3 +150,5 @@ QImage QWidgetPayment::qIconBuilder(const QSize &size){
     painter.drawImage(xAliPay, yAliPay, qimageAliPay);
     return targetImage;
 }
+
+
